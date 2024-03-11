@@ -1,4 +1,4 @@
-package model
+package screens.branch
 
 data class Branch(
     val name: String,

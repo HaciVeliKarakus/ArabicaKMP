@@ -6,6 +6,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 import screens.about.AboutScreenModel
 import screens.branch.BranchScreenModel
+import screens.course.CourseScreenModel
 import screens.product.ProductScreenModel
 
 fun initKoin(
@@ -16,7 +17,8 @@ fun initKoin(
 }
 
 fun commonModule() = module {
-    factoryOf(::AboutScreenModel)
     factoryOf(::ProductScreenModel)
     factoryOf(::BranchScreenModel)
+    factoryOf(::CourseScreenModel)
+    factoryOf(::AboutScreenModel)
 }

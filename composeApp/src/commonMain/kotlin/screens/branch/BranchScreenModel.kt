@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import model.Branch
 import org.jsoup.Jsoup
 
 class BranchScreenModel : ScreenModel {
@@ -33,7 +32,6 @@ class BranchScreenModel : ScreenModel {
                 .timeout(55_000)
                 .get()
             val content = doc.select("div.branch-box")
-            println("___content $content")
             content.forEach {
                 val imgUrl =
                     it.select("div.over_img").attr("style")
@@ -42,14 +40,10 @@ class BranchScreenModel : ScreenModel {
                 val name = data.select("h2").text()
                 val loc = data.select("p").text()
                 val link = data.select("a").attr("href")
-//                val imgUrl = imageExtractor(it.select("div.product-img").attr("style"))
-//                val link = it.select("a").attr("href")
-                println("___name $name loc $loc img:$imgUrl url:$link")
                 tmpBranches.add(
                     Branch(name,loc,imgUrl,link)
                 )
             }
-            println("____size ${tmpBranches.size}")
             _branches.value = tmpBranches
             _loading.value = false
         }

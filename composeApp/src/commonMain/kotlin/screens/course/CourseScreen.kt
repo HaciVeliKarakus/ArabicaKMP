@@ -1,4 +1,4 @@
-package screens.branch
+package screens.course
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,15 +13,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,7 +36,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import components.ArabicaLayout
 import components.AsyncImage
 
-object BranchScreen : Tab {
+object CourseScreen : Tab {
     override val options: TabOptions
         @Composable
         get() {
@@ -44,7 +44,7 @@ object BranchScreen : Tab {
 
             return remember {
                 TabOptions(
-                    index = 1u,
+                    index = 0u,
                     title = "Product",
                     icon = icon
                 )
@@ -53,17 +53,18 @@ object BranchScreen : Tab {
 
     @Composable
     override fun Content() {
-        val viewModel = getScreenModel<BranchScreenModel>()
+        val viewModel = getScreenModel<CourseScreenModel>()
+        val courses by viewModel.courses.collectAsState()
         val loading by viewModel.loading.collectAsState()
-        val branches by viewModel.branches.collectAsState()
 
         ArabicaLayout(loading) {
-            Branches(branches)
+            CoursesUI(courses)
         }
     }
 
     @Composable
-    private fun Branches(products: List<Branch>) {
+    private fun CoursesUI(products: List<Course>) {
+        var showDetail by remember { mutableStateOf(false) }
         LazyVerticalGrid(
             GridCells.Adaptive(300.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -74,6 +75,9 @@ object BranchScreen : Tab {
                 Card(
                     modifier = Modifier
                         .pointerHoverIcon(PointerIcon.Hand)
+//                        .onClick {
+//                            showDetail = true
+//                        }
                 ) {
                     Box {
                         AsyncImage(
@@ -87,29 +91,31 @@ object BranchScreen : Tab {
                             )
                         ) {
                             Column {
+                                Divider(color = Color.White, thickness = 2.dp)
+
                                 Text(
-                                    product.name,
+                                    product.title.newLined(),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
                                 )
-                                Divider(color = Color.White, thickness = 2.dp)
-                                Row {
-                                    Icon(
-                                        Icons.Default.LocationOn,
-                                        contentDescription = null,
-                                        tint = Color.White
-                                    )
-                                    Text(
-                                        product.loc,
-                                        color = Color.White
-                                    )
-                                }
+
                             }
 
                         }
                     }
                 }
+                if (showDetail) {
+                    CourseDetailScreen(product.description) {
+                        showDetail = false
+                    }
+                }
             }
         }
+
+
     }
+}
+
+private fun String.newLined(): String {
+    return this.replace("(", "\n(")
 }

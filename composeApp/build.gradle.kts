@@ -35,6 +35,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+//            implementation(libs.androidx.material.icons.extended)
 
             implementation(libs.jsoup)
             implementation(libs.bundles.koin)

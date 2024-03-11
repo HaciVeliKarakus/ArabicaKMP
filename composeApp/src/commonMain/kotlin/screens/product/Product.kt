@@ -1,4 +1,4 @@
-package model
+package screens.product
 
 data class Product(
     val name: String,

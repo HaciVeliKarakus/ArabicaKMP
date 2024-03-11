@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import model.Product
 import org.jsoup.Jsoup
 
 class ProductScreenModel : ScreenModel {
@@ -42,7 +41,6 @@ class ProductScreenModel : ScreenModel {
                     Product(name, imgUrl, link)
                 )
             }
-            println("____size ${tmpProduct.size}")
             _products.value = tmpProduct
             _loading.value = false
         }
