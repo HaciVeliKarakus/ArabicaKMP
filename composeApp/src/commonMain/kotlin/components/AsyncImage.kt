@@ -4,14 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.ContentScale
-import com.seiko.imageloader.cache.CachePolicy
 import com.seiko.imageloader.model.ImageAction
 import com.seiko.imageloader.model.ImageRequest
 import com.seiko.imageloader.model.ImageRequestBuilder
@@ -32,8 +32,7 @@ internal fun AsyncImage(
                 ImageRequest {
                     data(dataState)
                     options {
-                        maxImageSize = 1024
-                        memoryCachePolicy = CachePolicy.ENABLED
+                        maxImageSize = 512
                     }
                     blockState?.invoke(this)
                 }

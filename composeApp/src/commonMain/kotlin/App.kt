@@ -17,22 +17,15 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import di.initKoin
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.KoinContext
 import screens.about.AboutScreen
 import screens.branch.BranchScreen
 import screens.course.CourseScreen
 import screens.product.ProductScreen
 
 @Composable
-@Preview
 fun App() {
-    initKoin()
-    KoinContext {
-        MaterialTheme(colors = MaterialTheme.colors.copy(primary = Color(27, 56, 74))) {
-            AppContent()
-        }
+    MaterialTheme(colors = MaterialTheme.colors.copy(primary = Color(27, 56, 74))) {
+        AppContent()
     }
 }
 
