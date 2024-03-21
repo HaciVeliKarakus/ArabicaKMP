@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -22,9 +22,9 @@ kotlin = "1.9.22"
 ktor = "2.3.9"
 koin = "3.5.3"
 koinCompose = "1.1.2"
-materialIconsExtended = "1.6.3"
+materialIconsExtended = "1.6.4"
 voyager = "1.1.0-alpha03"
-image-loader-version = "1.5.3"
+image-loader-version = "1.7.8"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }

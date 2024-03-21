@@ -1,20 +1,28 @@
 package screens.product
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -45,34 +53,68 @@ object ProductScreen : Tab {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<ProductScreenModel>()
-        val products by viewModel.products.collectAsState()
+//        val products by viewModel.products.collectAsState()
         val loading by viewModel.loading.collectAsState()
+        val searchText by viewModel.searchText.collectAsState()
+        val products by viewModel.products.collectAsState()
+        val isSearching by viewModel.isSearching.collectAsState()
 
         ArabicaLayout(loading) {
-            Products(products)
+            Products(
+                products = products,
+                searchText = searchText,
+                onValueChange = viewModel::onSearchTextChange,
+                isSearching = isSearching
+            )
         }
     }
 
-    @Composable
-    private fun Products(products: List<Product>) {
+}
 
-        LazyVerticalGrid(
-            GridCells.Adaptive(150.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp)
-        ) {
-            items(products) { product ->
-                Card(
-                    modifier = Modifier
-                        .pointerHoverIcon(PointerIcon.Hand)
-                ) {
-                    AsyncImage(
-                        product.imgUrl.toString(),
-                        Modifier.fillMaxSize()
-                            .aspectRatio(1f)
-                    )
-                    Text(product.name)
+@Composable
+private fun Products(
+    products: List<Product>,
+    searchText: String,
+    onValueChange: (String) -> Unit,
+    isSearching: Boolean
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        TextField(
+            value = searchText,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(text = "Search") }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        if (isSearching) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        } else {
+            LazyVerticalGrid(
+                GridCells.Adaptive(150.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(16.dp)
+            ) {
+                items(products) { product ->
+                    Card(
+                        modifier = Modifier
+                            .pointerHoverIcon(PointerIcon.Hand)
+                    ) {
+                        AsyncImage(
+                            product.imgUrl.toString(),
+                            Modifier.fillMaxSize()
+                                .aspectRatio(1f)
+                        )
+                        Text(product.name)
+                    }
                 }
             }
         }
