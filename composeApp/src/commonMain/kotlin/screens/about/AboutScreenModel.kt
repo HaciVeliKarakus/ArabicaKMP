@@ -2,11 +2,13 @@ package screens.about
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.fleeksoft.ksoup.Ksoup
+import com.fleeksoft.ksoup.network.parseGetRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 
 
 class AboutScreenModel : ScreenModel {
@@ -26,10 +28,8 @@ class AboutScreenModel : ScreenModel {
             _isLoading.value = true
             val url = "https://arabicacoffee.com.tr/hakkimizda"
 
-            val doc = Jsoup.connect(url)
-                .userAgent("Mozilla")
-                .timeout(55_000)
-                .get()
+            val doc = Ksoup.parseGetRequest(url)
+
             val content = doc.select("div.page-bread").text()
             _content.value = content
             _isLoading.value = false

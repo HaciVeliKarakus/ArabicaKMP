@@ -2,11 +2,13 @@ package screens.branch
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.fleeksoft.ksoup.Ksoup
+import com.fleeksoft.ksoup.network.parseGetRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 
 class BranchScreenModel : ScreenModel {
     private val _loading = MutableStateFlow(false)
@@ -27,10 +29,8 @@ class BranchScreenModel : ScreenModel {
 
             val url = "https://arabicacoffee.com.tr/subeler"
 
-            val doc = Jsoup.connect(url)
-                .userAgent("Mozilla")
-                .timeout(55_000)
-                .get()
+            val doc = Ksoup.parseGetRequest(url)
+
             val content = doc.select("div.branch-box")
             content.forEach {
                 val imgUrl =
@@ -41,7 +41,7 @@ class BranchScreenModel : ScreenModel {
                 val loc = data.select("p").text()
                 val link = data.select("a").attr("href")
                 tmpBranches.add(
-                    Branch(name,loc,imgUrl,link)
+                    Branch(name, loc, imgUrl, link)
                 )
             }
             _branches.value = tmpBranches

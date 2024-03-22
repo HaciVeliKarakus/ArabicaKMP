@@ -18,7 +18,16 @@ kotlin {
     }
 
     jvm("desktop")
-
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
     sourceSets {
         val desktopMain by getting
 
@@ -36,14 +45,18 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 //            implementation(libs.androidx.material.icons.extended)
+            implementation(libs.ksoup)
+            implementation(libs.ksoup.network)
 
-            implementation(libs.jsoup)
             implementation(libs.bundles.koin)
             implementation(libs.bundles.voyager)
 
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+        }
+        iosMain.dependencies {
+            implementation("co.touchlab:stately-common:2.0.5")
         }
     }
 }

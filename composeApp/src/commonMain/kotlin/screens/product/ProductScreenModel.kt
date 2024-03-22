@@ -2,9 +2,9 @@ package screens.product
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
+import com.fleeksoft.ksoup.Ksoup
+import com.fleeksoft.ksoup.network.parseGetRequest
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
 import kotlin.time.Duration.Companion.milliseconds
 
 class ProductScreenModel : ScreenModel {
@@ -22,8 +20,6 @@ class ProductScreenModel : ScreenModel {
     val loading = _loading.asStateFlow()
 
     private val _products = MutableStateFlow<List<Product>>(listOf())
-//    val products = _products.asStateFlow()
-
 
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
@@ -67,10 +63,7 @@ class ProductScreenModel : ScreenModel {
 
             val url = "https://arabicacoffee.com.tr/urunler"
 
-            val doc = Jsoup.connect(url)
-                .userAgent("Mozilla")
-                .timeout(55_000)
-                .get()
+            val doc = Ksoup.parseGetRequest(url)
             val content = doc.select("div.product-barrier")
             content.forEach {
                 val name = it.select("div.product-desc").text()
@@ -81,6 +74,7 @@ class ProductScreenModel : ScreenModel {
                     Product(name, imgUrl, link)
                 )
             }
+
             _products.value = tmpProduct
             _loading.value = false
         }
