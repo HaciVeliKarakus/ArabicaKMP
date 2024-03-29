@@ -40,16 +40,16 @@ object AboutScreen : Tab {
     @Composable
     override fun Content() {
         val screenModel = getScreenModel<AboutScreenModel>()
-        val content by screenModel.content.collectAsState()
-        val loading by screenModel.isLoading.collectAsState()
-        contentUI(content, loading)
+        val state by screenModel.state.collectAsState()
+
+        contentUI(state)
     }
 }
 
 @Composable
-private fun contentUI(content: String, loading: Boolean) {
-    ArabicaLayout(loading) {
-        Text(content)
+private fun contentUI(state: AboutUiState) {
+    ArabicaLayout(state.isLoading) {
+        Text(state.content)
     }
 }
 
