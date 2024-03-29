@@ -44,12 +44,13 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-//            implementation(libs.androidx.material.icons.extended)
+//            implementation(libs.compose.windowsizeclass)
             implementation(libs.ksoup)
             implementation(libs.ksoup.network)
 
             implementation(libs.bundles.koin)
             implementation(libs.bundles.voyager)
+
 
         }
         desktopMain.dependencies {

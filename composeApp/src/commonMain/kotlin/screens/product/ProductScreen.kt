@@ -1,5 +1,6 @@
 package screens.product
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,15 +25,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import arabicakmp.composeapp.generated.resources.Res
+import arabicakmp.composeapp.generated.resources.background
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import components.ArabicaLayout
 import components.AsyncImage
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 object ProductScreen : Tab {
 
@@ -53,7 +60,6 @@ object ProductScreen : Tab {
     @Composable
     override fun Content() {
         val viewModel = getScreenModel<ProductScreenModel>()
-//        val products by viewModel.products.collectAsState()
         val loading by viewModel.loading.collectAsState()
         val searchText by viewModel.searchText.collectAsState()
         val products by viewModel.products.collectAsState()
@@ -64,56 +70,66 @@ object ProductScreen : Tab {
                 products = products,
                 searchText = searchText,
                 onValueChange = viewModel::onSearchTextChange,
-                isSearching = isSearching
+                isSearching = isSearching,
+                backgroundFlowImage = viewModel.backgoundFlowImage
             )
         }
     }
 
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Products(
     products: List<Product>,
     searchText: String,
     onValueChange: (String) -> Unit,
-    isSearching: Boolean
+    isSearching: Boolean,
+    backgroundFlowImage: String
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        TextField(
-            value = searchText,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text(text = "Search") }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painterResource(Res.drawable.background), null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize().alpha(0.2f)
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        if (isSearching) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        } else {
-            LazyVerticalGrid(
-                GridCells.Adaptive(150.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                items(products) { product ->
-                    Card(
-                        modifier = Modifier
-                            .pointerHoverIcon(PointerIcon.Hand)
-                    ) {
-                        AsyncImage(
-                            product.imgUrl.toString(),
-                            Modifier.fillMaxSize()
-                                .aspectRatio(1f)
-                        )
-                        Text(product.name)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            TextField(
+                value = searchText,
+                onValueChange = onValueChange,
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text(text = "Search") }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            if (isSearching) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            } else {
+                LazyVerticalGrid(
+                    GridCells.Adaptive(150.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    items(products) { product ->
+                        Card(
+                            modifier = Modifier
+                                .pointerHoverIcon(PointerIcon.Hand)
+                        ) {
+                            AsyncImage(
+                                product.imgUrl.toString(),
+                                Modifier.fillMaxSize()
+                                    .aspectRatio(1f)
+                            )
+                            Text(product.name)
+                        }
                     }
                 }
             }

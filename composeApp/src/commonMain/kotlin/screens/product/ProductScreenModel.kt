@@ -27,6 +27,8 @@ class ProductScreenModel : ScreenModel {
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
+    val backgoundFlowImage = "https://arabicacoffee.com.tr/assets/img/sliders/slider-5.jpg"
+
     @OptIn(FlowPreview::class)
     val products = searchText
         .debounce(500.milliseconds)
