@@ -14,8 +14,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,12 +33,14 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import components.ArabicaLayout
 import components.AsyncImage
+import compose.icons.SimpleIcons
+import compose.icons.simpleicons.Leanpub
 
 object CourseScreen : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val icon = rememberVectorPainter(Icons.Default.Home)
+            val icon = rememberVectorPainter(SimpleIcons.Leanpub)
 
             return remember {
                 TabOptions(

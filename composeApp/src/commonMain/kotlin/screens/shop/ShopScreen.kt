@@ -1,10 +1,10 @@
-package screens.about
+package screens.shop
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,12 +21,12 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
 
-object AboutScreen : Tab {
+object ShopScreen : Tab {
 
     override val options: TabOptions
         @Composable
         get() {
-            val icon = rememberVectorPainter(Icons.Default.Home)
+            val icon = rememberVectorPainter(Icons.Default.ShoppingCart)
 
             return remember {
                 TabOptions(
@@ -39,7 +39,7 @@ object AboutScreen : Tab {
 
     @Composable
     override fun Content() {
-        val screenModel = getScreenModel<AboutScreenModel>()
+        val screenModel = getScreenModel<ShopScreenModel>()
         val state by screenModel.state.collectAsState()
 
         contentUI(state)

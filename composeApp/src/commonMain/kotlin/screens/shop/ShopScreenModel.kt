@@ -1,4 +1,4 @@
-package screens.about
+package screens.shop
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 
 
-class AboutScreenModel : ScreenModel {
+class ShopScreenModel : ScreenModel {
 
     val state: StateFlow<AboutUiState> = flow {
         emit(AboutUiState(isLoading = true))

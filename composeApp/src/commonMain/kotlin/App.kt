@@ -17,7 +17,7 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import screens.about.AboutScreen
+import screens.shop.ShopScreen
 import screens.branch.BranchScreen
 import screens.course.CourseScreen
 import screens.product.ProductScreen
@@ -45,7 +45,7 @@ private fun AppContent() {
                     TabNavigationItem(ProductScreen)
                     TabNavigationItem(BranchScreen)
                     TabNavigationItem(CourseScreen)
-                    TabNavigationItem(AboutScreen)
+                    TabNavigationItem(ShopScreen)
                 }
             }
         )

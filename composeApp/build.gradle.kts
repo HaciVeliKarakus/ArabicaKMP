@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.ksoup)
             implementation(libs.ksoup.network)
 
+            implementation(libs.composeIcons.simpleIcons)
             implementation(libs.bundles.koin)
             implementation(libs.bundles.voyager)
 

@@ -1,6 +1,7 @@
 package screens.product
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
@@ -38,6 +38,8 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import components.ArabicaLayout
 import components.AsyncImage
+import compose.icons.SimpleIcons
+import compose.icons.simpleicons.Coffeescript
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -46,7 +48,7 @@ object ProductScreen : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val icon = rememberVectorPainter(Icons.Default.Home)
+            val icon = rememberVectorPainter(SimpleIcons.Coffeescript)
 
             return remember {
                 TabOptions(
@@ -113,7 +115,7 @@ private fun Products(
                 }
             } else {
                 LazyVerticalGrid(
-                    GridCells.Adaptive(150.dp),
+                    GridCells.Adaptive(200.dp),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.padding(16.dp)
@@ -128,7 +130,12 @@ private fun Products(
                                 Modifier.fillMaxSize()
                                     .aspectRatio(1f)
                             )
-                            Text(product.name)
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.background(Color.Black.copy(0.5f))
+                            ) {
+                                Text(product.name, color = Color.White)
+                            }
                         }
                     }
                 }
