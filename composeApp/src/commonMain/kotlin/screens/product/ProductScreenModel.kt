@@ -4,7 +4,11 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.fleeksoft.ksoup.Ksoup
 import com.fleeksoft.ksoup.network.parseGetRequest
-import kotlinx.coroutines.*
+import com.fleeksoft.ksoup.select.Elements
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,6 +17,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 class ProductScreenModel : ScreenModel {
@@ -69,8 +74,7 @@ class ProductScreenModel : ScreenModel {
             val content = doc.select("div.product-barrier")
             content.forEach {
                 val name = it.select("div.product-desc").text()
-                val imgUrl = it.select("div.product-img").attr("style")
-                    .split("url('")[1].substringBefore("');")
+                val imgUrl = it.select("div.product-img").extractBackgroundImage()
                 val link = it.select("a").attr("href")
                 tmpProduct.add(
                     Product(name, imgUrl, link)
@@ -83,3 +87,8 @@ class ProductScreenModel : ScreenModel {
     }
 }
 
+
+fun Elements.extractBackgroundImage(): String {
+    return this.attr("style")
+        .split("url('")[1].substringBefore("');")
+}
