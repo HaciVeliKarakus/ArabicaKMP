@@ -53,7 +53,7 @@ object ProductScreen : Tab {
             return remember {
                 TabOptions(
                     index = 0u,
-                    title = "Product",
+                    title = "Ürünlerimiz",
                     icon = icon
                 )
             }

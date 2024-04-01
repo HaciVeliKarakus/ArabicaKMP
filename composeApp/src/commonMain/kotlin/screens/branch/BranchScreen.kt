@@ -46,7 +46,7 @@ object BranchScreen : Tab {
             return remember {
                 TabOptions(
                     index = 1u,
-                    title = "Product",
+                    title = "Şubelerimiz",
                     icon = icon
                 )
             }

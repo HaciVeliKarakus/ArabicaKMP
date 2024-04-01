@@ -14,18 +14,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -63,7 +56,7 @@ object ShopScreen : Tab {
             return remember {
                 TabOptions(
                     index = 4u,
-                    title = "Home",
+                    title = "Online Shop",
                     icon = icon
                 )
             }
@@ -72,50 +65,51 @@ object ShopScreen : Tab {
     @Composable
     override fun Content() {
         val screenModel = getScreenModel<ShopScreenModel>()
-        val state by screenModel.state.collectAsState()
+        val regionalCoffee by screenModel.regionalCoffee.collectAsState()
+        val strongCoffee by screenModel.strongCoffee.collectAsState()
+        val mediumCoffee by screenModel.mediumCoffee.collectAsState()
+        val softCoffee by screenModel.softCoffee.collectAsState()
+        val coffeeSet by screenModel.coffeeSet.collectAsState()
+        val thermoses by screenModel.thermoses.collectAsState()
+        val syrup by screenModel.syrup.collectAsState()
+        val tools by screenModel.tools.collectAsState()
 
 //        ArabicaLayout(state.isLoading) {
 //            contentUI(state.content)
 //        }
-        TabScreen(state.content)
+        TabScreen(
+            listOf(
+                regionalCoffee,
+                strongCoffee,
+                mediumCoffee,
+                softCoffee,
+                coffeeSet,
+                thermoses,
+                syrup,
+                tools
+            )
+        )
     }
 }
 
 @Composable
-fun TabScreen(content: List<ShopProduct>) {
+fun TabScreen(tabStates: List<TabUiState>) {
     var tabIndex by remember { mutableStateOf(0) }
-
-    val tabs = listOf("Home", "About", "Settings", "More", "Something", "Everything")
 
     Column(modifier = Modifier.fillMaxWidth()) {
         ScrollableTabRow(selectedTabIndex = tabIndex) {
-            tabs.forEachIndexed { index, title ->
-                Tab(text = { Text(title) },
+            Category.entries.forEachIndexed { index, title ->
+                Tab(
+                    text = { Text(title.name) },
                     selected = tabIndex == index,
-                    onClick = { tabIndex = index },
-                    icon = {
-                        when (index) {
-                            0 -> Icon(imageVector = Icons.Default.Home, contentDescription = null)
-                            1 -> Icon(imageVector = Icons.Default.Info, contentDescription = null)
-                            2 -> Icon(imageVector = Icons.Default.Settings, contentDescription = null)
-                            3 -> Icon(imageVector = Icons.Default.Lock, contentDescription = null)
-                            4 -> Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null)
-                            5 -> Icon(imageVector = Icons.Default.Star, contentDescription = null)
-                        }
-                    }
+                    onClick = { tabIndex = index }
                 )
             }
         }
-        when (tabIndex) {
-            0 -> contentUI(content)
-            1 -> contentUI(content)
-            2 -> contentUI(content)
-            3 -> contentUI(content)
-            4 -> contentUI(content)
-            5 -> contentUI(content)
-        }
+        contentUI(tabStates[tabIndex].content)
     }
 }
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun contentUI(state: List<ShopProduct>) {
@@ -162,7 +156,12 @@ private fun contentUI(state: List<ShopProduct>) {
                                         .align(Alignment.TopCenter)
                                         .fillMaxWidth()
                                 ) {
-                                    Text(product.name, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                    Text(
+                                        product.name,
+                                        color = Color.White,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
                                 }
                                 AsyncImage(
                                     product.imgUrl,

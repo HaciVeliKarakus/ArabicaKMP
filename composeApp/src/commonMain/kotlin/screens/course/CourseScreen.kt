@@ -45,7 +45,7 @@ object CourseScreen : Tab {
             return remember {
                 TabOptions(
                     index = 0u,
-                    title = "Product",
+                    title = "Eğitimlerimiz",
                     icon = icon
                 )
             }
