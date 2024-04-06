@@ -1,6 +1,5 @@
 package screens.product
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,15 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import arabicakmp.composeapp.generated.resources.Res
-import arabicakmp.composeapp.generated.resources.background
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -40,8 +35,6 @@ import components.ArabicaLayout
 import components.AsyncImage
 import compose.icons.SimpleIcons
 import compose.icons.simpleicons.Coffeescript
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
 
 object ProductScreen : Tab {
 
@@ -71,30 +64,21 @@ object ProductScreen : Tab {
             Products(
                 products = products,
                 searchText = searchText,
-                onValueChange = viewModel::onSearchTextChange,
-                isSearching = isSearching,
-                backgroundFlowImage = viewModel.backgoundFlowImage
+                onValueChange = viewModel::updateSearchText,
+                isSearching = isSearching
             )
         }
     }
-
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun Products(
     products: List<Product>,
     searchText: String,
     onValueChange: (String) -> Unit,
-    isSearching: Boolean,
-    backgroundFlowImage: String
+    isSearching: Boolean
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painterResource(Res.drawable.background), null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize().alpha(0.2f)
-        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

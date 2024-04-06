@@ -1,6 +1,5 @@
 package screens.branch
 
-import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.fleeksoft.ksoup.Ksoup
 import com.fleeksoft.ksoup.network.parseGetRequest
@@ -9,14 +8,12 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import screens.BaseScreenModel
 
-class BranchScreenModel : ScreenModel {
-    private val _loading = MutableStateFlow(false)
-    val loading = _loading.asStateFlow()
+class BranchScreenModel : BaseScreenModel() {
 
     private val _branches = MutableStateFlow<List<Branch>>(listOf())
-    val branches = _branches.asStateFlow()
-
+    val branches = searchableFlow(_branches)
 
     init {
         fetchBranches()
@@ -25,7 +22,7 @@ class BranchScreenModel : ScreenModel {
     private fun fetchBranches() {
         val tmpBranches = mutableListOf<Branch>()
         screenModelScope.launch(Dispatchers.IO) {
-            _loading.value = true
+            updateLoading(true)
 
             val url = "https://arabicacoffee.com.tr/subeler"
 
@@ -45,7 +42,7 @@ class BranchScreenModel : ScreenModel {
                 )
             }
             _branches.value = tmpBranches
-            _loading.value = false
+            updateLoading(false)
         }
     }
 }

@@ -5,16 +5,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
@@ -57,52 +62,85 @@ object BranchScreen : Tab {
         val viewModel = getScreenModel<BranchScreenModel>()
         val loading by viewModel.loading.collectAsState()
         val branches by viewModel.branches.collectAsState()
+        val searchText by viewModel.searchText.collectAsState()
+        val isSearching by viewModel.isSearching.collectAsState()
 
         ArabicaLayout(loading) {
-            Branches(branches)
+            Branches(
+                branches,
+                searchText = searchText,
+                onValueChange = viewModel::updateSearchText,
+                isSearching = isSearching,
+            )
         }
     }
 
     @Composable
-    private fun Branches(products: List<Branch>) {
-        LazyVerticalGrid(
-            GridCells.Adaptive(300.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp)
+    private fun Branches(
+        products: List<Branch>,
+        searchText: String,
+        onValueChange: (String) -> Unit,
+        isSearching: Boolean
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            items(products) { product ->
-                Card(
-                    modifier = Modifier
-                        .pointerHoverIcon(PointerIcon.Hand)
+            TextField(
+                value = searchText,
+                onValueChange = onValueChange,
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text(text = "Search") }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            if (isSearching) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            } else {
+                LazyVerticalGrid(
+                    GridCells.Adaptive(300.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(16.dp)
                 ) {
-                    Box {
-                        AsyncImage(
-                            url = product.imgUrl,
-                            modifier = Modifier.fillMaxSize()
-                                .aspectRatio(1f)
-                        )
-                        Row(
-                            modifier = Modifier.align(Alignment.BottomStart)
-                                .background(Color.Black.copy(0.5f))
+                    items(products) { product ->
+                        Card(
+                            modifier = Modifier
+                                .pointerHoverIcon(PointerIcon.Hand)
                         ) {
-                            Column {
-                                Text(
-                                    product.name,
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold
+                            Box {
+                                AsyncImage(
+                                    url = product.imgUrl,
+                                    modifier = Modifier.fillMaxSize()
+                                        .aspectRatio(1f)
                                 )
-                                Divider(color = Color.White, thickness = 2.dp)
-                                Row {
-                                    Icon(
-                                        Icons.Default.LocationOn,
-                                        contentDescription = null,
-                                        tint = Color.White
-                                    )
-                                    Text(
-                                        product.loc,
-                                        color = Color.White
-                                    )
+                                Row(
+                                    modifier = Modifier.align(Alignment.BottomStart)
+                                        .background(Color.Black.copy(0.5f))
+                                ) {
+                                    Column {
+                                        Text(
+                                            product.name,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Divider(color = Color.White, thickness = 2.dp)
+                                        Row {
+                                            Icon(
+                                                Icons.Default.LocationOn,
+                                                contentDescription = null,
+                                                tint = Color.White
+                                            )
+                                            Text(
+                                                product.loc,
+                                                color = Color.White
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }

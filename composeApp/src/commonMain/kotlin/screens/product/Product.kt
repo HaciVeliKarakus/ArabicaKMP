@@ -4,15 +4,12 @@ data class Product(
     val name: String,
     val imgUrl: String?,
     val url: String
-) {
-    fun doesMatchSearchQuery(query: String): Boolean {
-        val matchingCombinations = listOf(
-            name,
-            "${name.first()}",
-        )
+) : BaseDataClass {
+    override val searchList: List<String>
+        get() = listOf(name)
+}
 
-        return matchingCombinations.any {
-            it.contains(query, ignoreCase = true)
-        }
-    }
+
+interface BaseDataClass {
+    val searchList: List<String>
 }
