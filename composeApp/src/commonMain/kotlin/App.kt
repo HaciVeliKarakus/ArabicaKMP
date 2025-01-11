@@ -17,14 +17,15 @@ import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
-import screens.shop.ShopScreen
 import screens.branch.BranchScreen
 import screens.course.CourseScreen
 import screens.product.ProductScreen
+import screens.shop.ShopScreen
 
 @Composable
 fun App() {
-    MaterialTheme(colors = MaterialTheme.colors.copy(primary = Color(27, 56, 74))) {
+    val primary = Color(27, 56, 74)
+    MaterialTheme(colors = MaterialTheme.colors.copy(primary = primary)) {
         AppContent()
     }
 }
@@ -33,7 +34,13 @@ fun App() {
 private fun AppContent() {
     TabNavigator(ProductScreen) { tabNavigator ->
         Scaffold(
-            topBar = { TopAppBar(title = { Text(tabNavigator.current.options.title) }) },
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(tabNavigator.current.options.title)
+                    }
+                )
+            },
             content = {
                 Column {
                     CurrentTab()
@@ -59,6 +66,11 @@ private fun RowScope.TabNavigationItem(tab: Tab) {
     BottomNavigationItem(
         selected = tabNavigator.current.key == tab.key,
         onClick = { tabNavigator.current = tab },
-        icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) }
+        icon = {
+            Icon(
+                painter = tab.options.icon!!,
+                contentDescription = tab.options.title
+            )
+        }
     )
 }

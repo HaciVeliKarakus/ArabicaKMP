@@ -1,3 +1,0 @@
-//class ArabicaRepository {
-//    fun featchAbout
-//}

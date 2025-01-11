@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
 
 }
@@ -32,7 +33,6 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-//            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
@@ -44,21 +44,20 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-//            implementation(libs.compose.windowsizeclass)
             implementation(libs.ksoup)
             implementation(libs.ksoup.network)
 
             implementation(libs.composeIcons.simpleIcons)
             implementation(libs.bundles.koin)
             implementation(libs.bundles.voyager)
-
+            implementation(libs.compottie)
 
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
         iosMain.dependencies {
-            implementation("co.touchlab:stately-common:2.0.5")
+            implementation(libs.stately.common)
         }
     }
 }
