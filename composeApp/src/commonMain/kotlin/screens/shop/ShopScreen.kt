@@ -39,6 +39,7 @@ import androidx.compose.ui.zIndex
 import arabicakmp.composeapp.generated.resources.Res
 import arabicakmp.composeapp.generated.resources.background
 import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import components.AsyncImage
@@ -64,7 +65,7 @@ object ShopScreen : Tab {
 
     @Composable
     override fun Content() {
-        val screenModel = getScreenModel<ShopScreenModel>()
+        val screenModel:ShopScreenModel = koinScreenModel()
         val regionalCoffee by screenModel.regionalCoffee.collectAsState()
         val strongCoffee by screenModel.strongCoffee.collectAsState()
         val mediumCoffee by screenModel.mediumCoffee.collectAsState()
