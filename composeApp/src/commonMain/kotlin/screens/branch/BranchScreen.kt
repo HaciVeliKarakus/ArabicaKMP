@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import components.ArabicaLayout
+import components.MainLayout
 import components.AsyncImage
 import compose.icons.SimpleIcons
 import compose.icons.simpleicons.Homeassistantcommunitystore
@@ -46,45 +46,45 @@ object BranchScreen : Tab {
 
     @Composable
     override fun Content() {
-        val viewModel:BranchScreenModel = koinScreenModel()
+        val viewModel: BranchScreenModel = koinScreenModel()
         val combinedData by viewModel.combinedData.collectAsState()
-        ArabicaLayout(combinedData ,viewModel::updateSearchText) {
-           BranchItem(it)
+        MainLayout(combinedData, viewModel::updateSearchText) {
+            BranchItem(it)
         }
     }
 
     @Composable
     private fun BranchItem(branch: Branch) {
-       Box {
-           AsyncImage(
-               url = branch.imgUrl,
-               modifier = Modifier.fillMaxSize()
-                   .aspectRatio(1f)
-           )
-           Row(
-               modifier = Modifier.align(Alignment.BottomStart)
-                   .background(Color.Black.copy(0.5f))
-           ) {
-               Column {
-                   Text(
-                       branch.name,
-                       color = Color.White,
-                       fontWeight = FontWeight.Bold
-                   )
-                   Divider(color = Color.White, thickness = 2.dp)
-                   Row {
-                       Icon(
-                           Icons.Default.LocationOn,
-                           contentDescription = null,
-                           tint = Color.White
-                       )
-                       Text(
-                           branch.loc,
-                           color = Color.White
-                       )
-                   }
-               }
-           }
-       }
+        Box {
+            AsyncImage(
+                url = branch.imgUrl,
+                modifier = Modifier.fillMaxSize()
+                    .aspectRatio(1f)
+            )
+            Row(
+                modifier = Modifier.align(Alignment.BottomStart)
+                    .background(Color.Black.copy(0.5f))
+            ) {
+                Column {
+                    Text(
+                        branch.name,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Divider(color = Color.White, thickness = 2.dp)
+                    Row {
+                        Icon(
+                            Icons.Default.LocationOn,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                        Text(
+                            branch.loc,
+                            color = Color.White
+                        )
+                    }
+                }
+            }
+        }
     }
 }

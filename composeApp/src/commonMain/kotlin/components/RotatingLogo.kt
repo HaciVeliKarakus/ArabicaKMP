@@ -1,7 +1,5 @@
 package components
 
-import arabicakmp.composeapp.generated.resources.Res
-import arabicakmp.composeapp.generated.resources.loading
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -21,12 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import arabicakmp.composeapp.generated.resources.Res
+import arabicakmp.composeapp.generated.resources.loading
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RotatingLogo() {
     var currentRotation by remember { mutableStateOf(0f) }

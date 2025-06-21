@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import components.ArabicaLayout
+import components.MainLayout
 import components.AsyncImage
 import compose.icons.SimpleIcons
 import compose.icons.simpleicons.Leanpub
@@ -48,7 +48,7 @@ object CourseScreen : Tab {
     override fun Content() {
         val viewModel: CourseScreenModel = koinScreenModel()
         val uiState by viewModel.combinedData.collectAsState()
-        ArabicaLayout(uiState, viewModel::updateSearchText) {
+        MainLayout(uiState, viewModel::updateSearchText) {
             CourseItem(it)
         }
     }

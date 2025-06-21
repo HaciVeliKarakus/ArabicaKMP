@@ -30,7 +30,7 @@ import screens.UIState
 import screens.product.BaseDataClass
 
 @Composable
-fun <T : BaseDataClass> ArabicaLayout(
+fun <T : BaseDataClass> MainLayout(
     combinedData: CombinedData<T>,
     onSearch: (String) -> Unit,
     itemLayout: @Composable (T) -> Unit

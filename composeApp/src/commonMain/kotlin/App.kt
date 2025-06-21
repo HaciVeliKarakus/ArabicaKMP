@@ -2,6 +2,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -48,7 +49,9 @@ private fun AppContent() {
                 }
             },
             bottomBar = {
-                BottomNavigation {
+                BottomNavigation(
+                    modifier = Modifier.navigationBarsPadding()
+                ) {
                     TabNavigationItem(ProductScreen)
                     TabNavigationItem(BranchScreen)
                     TabNavigationItem(CourseScreen)

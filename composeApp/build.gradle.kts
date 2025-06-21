@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,24 +12,12 @@ plugins {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 
     jvm("desktop")
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
     sourceSets {
         val desktopMain by getting
 
@@ -44,20 +33,17 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.ksoup)
-            implementation(libs.ksoup.network)
+            implementation(libs.androidx.material.icons.extended)
 
             implementation(libs.composeIcons.simpleIcons)
             implementation(libs.bundles.koin)
             implementation(libs.bundles.voyager)
+            implementation(libs.bundles.ksoup)
             implementation(libs.compottie)
 
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-        }
-        iosMain.dependencies {
-            implementation(libs.stately.common)
         }
     }
 }
@@ -91,9 +77,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    dependencies {
+//    dependencies {
 //        debugImplementation(libs.compose.ui.tooling)
-    }
+//    }
 }
 
 compose.desktop {
@@ -103,7 +89,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "hvk.arabica"
-            packageVersion = "1.0.0"
+            packageVersion = "1.0.1"
         }
     }
 }
