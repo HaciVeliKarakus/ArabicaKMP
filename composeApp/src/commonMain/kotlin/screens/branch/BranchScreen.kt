@@ -30,6 +30,7 @@ import compose.icons.SimpleIcons
 import compose.icons.simpleicons.Homeassistantcommunitystore
 
 object BranchScreen : Tab {
+    private fun readResolve(): Any = BranchScreen
     override val options: TabOptions
         @Composable
         get() {

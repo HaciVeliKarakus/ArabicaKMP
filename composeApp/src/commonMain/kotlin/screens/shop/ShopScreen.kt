@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import arabicakmp.composeapp.generated.resources.Res
 import arabicakmp.composeapp.generated.resources.background
-import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
@@ -48,6 +47,7 @@ import org.jetbrains.compose.resources.painterResource
 
 
 object ShopScreen : Tab {
+    private fun readResolve(): Any = ShopScreen
 
     override val options: TabOptions
         @Composable

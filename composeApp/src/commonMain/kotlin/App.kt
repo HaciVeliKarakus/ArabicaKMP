@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -43,7 +44,7 @@ private fun AppContent() {
                 )
             },
             content = {
-                Column {
+                Column(Modifier.padding(it)) {
                     CurrentTab()
                     Spacer(Modifier.height(56.dp))
                 }
